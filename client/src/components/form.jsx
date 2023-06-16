@@ -1,26 +1,29 @@
 import { useState } from "react";
 
 
-const WeatherForm = (props) =>{
+const WeatherForm = () =>{
 
   const [city, setCity] = useState("");
-  const [isValid, setIsValid] = useState(false);
   const [error, setError] = useState("");
 
   const validateInput = () => {
     const cityRegex = /^[a-zA-Z\s]+,\s*[a-zA-Z\s]+$/;
     const isValidCity = cityRegex.test(city.trim());
-    setIsValid(isValidCity);
+    // console.log(city, "city");
+    // console.log(isValidCity, "Is valid city");
+    
+    return isValidCity;
   }
 
 
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    validateInput();
+    const isValid = validateInput();
     if(isValid){
       console.log(city);
-      setCity(" ");
+      setError("");
+      setCity("");
     } else{
       setError("Please enter a city with the format City, State");
     }
@@ -43,7 +46,7 @@ const WeatherForm = (props) =>{
           <input type="submit" value="Submit" />
         </form>
         <div>
-        {!error ? (null) : (<p>{error}</p>)}
+        {!error ? (null) : (<p data-testid="error-msg" >{error}</p>)}
         </div>
       </div>
     )
